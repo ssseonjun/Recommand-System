@@ -1,0 +1,32 @@
+Hybrid user 학습 명령
+python train_hybrid_user.py \
+  --train preprocessed_2.csv \
+  --out hybrid_user \
+  --k 100 --shrink 20 --ridge 0.1 1 5 --folds 3
+
+hybrid_user*.pkl 옆에 content based 모델도 입력하면 두 모델 평가지표 한번에 나옴.
+python evaluate_models.py \
+  --test preprocessed_1.csv \
+  --models hybrid_user*.pkl
+
+
+# 예시 1: rating 가중, alpha=20
+python train_content_based.py \
+  --train preprocessed_2.csv \
+  --out content_based \
+  --alpha 20 \
+  --weight-mode rating
+
+# 예시 2: uniform 가중, alpha=80
+python train_content_based.py \
+  --train preprocessed_2.csv \
+  --out content_based \
+  --alpha 80 \
+  --weight-mode sim
+
+
+모델 평가 명령
+content_based*.pkl 옆에 content based 모델도 입력하면 두 모델 평가지표 한번에 나옴.
+python evaluate_models.py \
+  --test preprocessed_1.csv \
+  --models content_based*.pkl
